@@ -51,7 +51,7 @@
             <!-- my working zone -->
             <div class="input-group f-class">
                 <div>
-                    <label for="">First Class ($<span id="firstClass-price">150</span>)</label>
+                    <label for="">First Class ($<span id="first-class-price">150</span>)</label>
                     <input id="first-class" class="inp-style inp-width" value="0">
                 </div>
                 <div class="plus-minus-btn">
@@ -62,7 +62,7 @@
 
             <div class="input-group f-class">
                 <div>
-                    <label for="">Economy ($100)</label>
+                    <label for="">Economy ($ <span id="economy-class-price">100</span> )</label>
                     <input id="economy-class" class="inp-style inp-width" value="0">
                 </div>
                 <div class="plus-minus-btn">
@@ -77,7 +77,7 @@
                         <p>Subtotal</p>
                     </div>
                     <div class="right">
-                        <p>$500</p>
+                        <p>$ <span id="subtotal">00</span></p>
                     </div>
                 </div>
 
@@ -86,7 +86,7 @@
                         <p>Charge 10% VAT</p>
                     </div>
                     <div class="right">
-                        <p>$50</p>
+                        <p>$ <span id="tax-10%">00</span> </p>
                     </div>
                 </div>
                 <hr>
@@ -95,7 +95,7 @@
                         <h4>Total</h4>
                     </div>
                     <div class="right">
-                        <p>$550</p>
+                        <p>$ <span id="total">00</span> </p>
                     </div>
                 </div>
             </div>
@@ -113,36 +113,40 @@
         <!--Thank You-->
 
         <script>
-            // document.getElementById('plus-Btn').addEventListener('click', function () {
-            //     const ticket = document.getElementById('first-class');
-            //     const ticketQuantity = parseInt(ticket.value);
-            //     const newTicketQuantity = ticketQuantity + 1;
-            //     document.getElementById('first-class').value = newTicketQuantity;
-            // })
-
-            // document.getElementById('minus-Btn').addEventListener('click', function () {
-            //     const ticket = document.getElementById('first-class');
-            //     const ticketQuantity = parseInt(ticket.value);
-            //     const newTicketQuantity = ticketQuantity - 1;
-            //     document.getElementById('first-class').value = newTicketQuantity;
-            // })
-
-
-            function eventHandel(id, isCondition) {
-                const ticket = document.getElementById(id + '-class');
-                let ticketQuantity = parseInt(ticket.value);
-                let newTicketQuantity = ticketQuantity;
+            //add eventHandel for onclick event.
+            let eventHandel = function (ticket, isCondition) {  //passing ticket and isCondition data form onClick tag/id.
+                let ticketQuantity = getInputValue(ticket); //calling the function and check ticket by it's class.
+                
                 if (isCondition == true) {
-                    newTicketQuantity = ticketQuantity + 1;
+                    newTicketQuantity = ticketQuantity + 1; //onClick  plusBtn is true this condition will be execute. 
                 }
-                if (isCondition == false && newTicketQuantity > 0) {
-                    newTicketQuantity = ticketQuantity - 1;
+                if (isCondition == false && ticketQuantity > 0) {   //ticketQuantity will be gether than zero.
+                    newTicketQuantity = ticketQuantity - 1;         //onClick  minusBtn is true this condition will be execute.
                 }
 
-                document.getElementById(id + '-class').value = newTicketQuantity;
+                document.getElementById(ticket + '-class').value = newTicketQuantity;   //to display ticketQuantity value.
+                priceCalculation(); //calling function.
             }
 
-          
+            function priceCalculation() {
+                const firstTicketCount = getInputValue('first');    //calling function with first name function will execute first+last name.
+                const economyTicketCount = getInputValue('economy');
+               
+                const subtotal = firstTicketCount * 150 + economyTicketCount * 100; //subtotal calculation and display value.
+                document.getElementById('subtotal').innerText = subtotal;
+
+                const tax = subtotal * .1;
+                document.getElementById('tax-10%').innerText = tax; //tax calculation and display value
+
+                const total = subtotal + tax;
+                document.getElementById('total').innerText = total; //total calculation and display value
+            }
+
+            function getInputValue(ticket) {    //ticket take data form inside bracket() and add/match it inside function value.
+                const getTicket = document.getElementById(ticket + '-class');
+                let ticketQuantity = parseInt(getTicket.value);
+                return ticketQuantity;  //we are use this function other function that's why return the value.
+            }
 
 
 
